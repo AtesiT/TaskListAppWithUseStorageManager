@@ -26,9 +26,7 @@ final class SecondViewControllerRepeat: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(textField)
-        view.addSubview(button)
-        view.addSubview(theView)
+        placeElements(elements: textField, button, theView)
         setConstraints()
     }
     
@@ -47,6 +45,12 @@ final class SecondViewControllerRepeat: UIViewController {
             theView.widthAnchor.constraint(equalToConstant: 100),
             theView.heightAnchor.constraint(equalToConstant: 100)
         ])
+    }
+    
+    private func placeElements(elements: UIView...) {
+        for element in elements {
+            view.addSubview(element)
+        }
     }
 }
 
