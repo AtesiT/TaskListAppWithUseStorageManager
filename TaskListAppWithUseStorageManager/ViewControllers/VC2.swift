@@ -17,10 +17,18 @@ final class SecondViewControllerRepeat: UIViewController {
         return button
     }()
     
+    private lazy var theView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGreen
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(textField)
         view.addSubview(button)
+        view.addSubview(theView)
         setConstraints()
     }
     
@@ -32,7 +40,12 @@ final class SecondViewControllerRepeat: UIViewController {
             
             button.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 50),
             button.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 20),
-            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            theView.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 20),
+            theView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            theView.widthAnchor.constraint(equalToConstant: 100),
+            theView.heightAnchor.constraint(equalToConstant: 100)
         ])
     }
 }
