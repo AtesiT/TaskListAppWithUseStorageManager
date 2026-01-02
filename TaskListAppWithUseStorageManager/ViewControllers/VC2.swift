@@ -8,9 +8,19 @@ final class SecondViewControllerRepeat: UIViewController {
         return textField
     }()
     
+    private lazy var button: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("Tap me", for: .normal)
+        button.tintColor = .white
+        button.backgroundColor = .systemBlue
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(textField)
+        view.addSubview(button)
         setConstraints()
     }
     
@@ -18,7 +28,11 @@ final class SecondViewControllerRepeat: UIViewController {
         NSLayoutConstraint.activate([
             textField.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 50),
             textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            button.topAnchor.constraint(equalToSystemSpacingBelow: view.topAnchor, multiplier: 50),
+            button.leadingAnchor.constraint(equalToSystemSpacingAfter: view.leadingAnchor, multiplier: 20),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
 }
