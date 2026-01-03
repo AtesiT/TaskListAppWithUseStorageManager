@@ -2,8 +2,12 @@ import UIKit
 
 final class TaskListViewController: UITableViewController {
 
+    private var taskList: [ToDoTask] = []
+    private let cellID = "task"
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         view.backgroundColor = .white
         setupNavigationBar()
     }
@@ -12,9 +16,30 @@ final class TaskListViewController: UITableViewController {
         let newTaskVC = NewTaskViewControllerFactory()
         present(newTaskVC, animated: true)
     }
+
 }
 
+//  MARK: - UITableViewDataSource
 extension TaskListViewController {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        taskList.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID, for: indexPath)
+        let toDoTask = taskList[indexPath.row]
+        var content = cell.defaultContentConfiguration()
+        content.text = toDoTask.title
+        cell.contentConfiguration = content
+        
+        return cell
+    }
+}
+
+
+// MARK: - Setup UI
+
+private extension TaskListViewController {
     private func setupNavigationBar() {
         //  SETTINGS OF NAVIGATION BAR
         title = "Tasks"
