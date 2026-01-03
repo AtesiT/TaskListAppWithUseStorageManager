@@ -1,6 +1,10 @@
 import UIKit
 internal import CoreData
 
+protocol NewTaskViewControllerDelegate: AnyObject {
+    func reloadData()
+}
+
 final class TaskListViewController: UITableViewController {
 
     private var taskList: [ToDoTask] = []
@@ -16,6 +20,7 @@ final class TaskListViewController: UITableViewController {
 
     @objc private func addNewTask() {
         let newTaskVC = NewTaskViewControllerFactory()
+        newTaskVC.delegate = self
         present(newTaskVC, animated: true)
     }
 
@@ -86,3 +91,9 @@ private extension TaskListViewController {
     
 }
 
+extension TaskListViewController: NewTaskViewControllerDelegate {
+    func reloadData() {
+        fetchData()
+        tableView.reloadData()
+    }
+}
