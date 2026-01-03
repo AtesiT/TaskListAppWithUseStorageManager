@@ -1,4 +1,5 @@
 import UIKit
+internal import CoreData
 
 final class TaskListViewController: UITableViewController {
 
@@ -10,6 +11,7 @@ final class TaskListViewController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellID)
         view.backgroundColor = .white
         setupNavigationBar()
+        fetchData()
     }
 
     @objc private func addNewTask() {
@@ -17,6 +19,17 @@ final class TaskListViewController: UITableViewController {
         present(newTaskVC, animated: true)
     }
 
+    private func fetchData() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let fetchRequest = ToDoTask.fetchRequest()
+        
+        do {
+            taskList = try appDelegate.persistentContainer.viewContext.fetch(fetchRequest)
+        } catch {
+            print(error)
+        }
+        
+    }
 }
 
 //  MARK: - UITableViewDataSource
