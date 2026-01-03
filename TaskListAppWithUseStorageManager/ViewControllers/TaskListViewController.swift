@@ -9,7 +9,7 @@ final class TaskListViewController: UITableViewController {
     }
 
     @objc private func addNewTask() {
-        let newTaskVC = NewTaskViewController()
+        let newTaskVC = NewTaskViewControllerFactory()
         present(newTaskVC, animated: true)
     }
 }
