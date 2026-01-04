@@ -3,8 +3,6 @@ internal import CoreData
 
 final class NewTaskViewControllerFactory: UIViewController {
     
-    weak var delegate: NewTaskViewControllerDelegate?
-    
     private lazy var taskTextField: UITextField = {
         let taskTextField = UITextField()
         taskTextField.placeholder = "New Task"
@@ -46,7 +44,6 @@ final class NewTaskViewControllerFactory: UIViewController {
         let task = ToDoTask(context: appDelegate.persistentContainer.viewContext)
         task.title = taskTextField.text
         appDelegate.saveContext()
-        delegate?.reloadData()
         dismiss(animated: true)
     }
     

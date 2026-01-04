@@ -1,10 +1,6 @@
 import UIKit
 internal import CoreData
 
-protocol NewTaskViewControllerDelegate: AnyObject {
-    func reloadData()
-}
-
 final class TaskListViewController: UITableViewController {
 
     private var taskList: [ToDoTask] = []
@@ -19,9 +15,7 @@ final class TaskListViewController: UITableViewController {
     }
 
     @objc private func addNewTask() {
-        let newTaskVC = NewTaskViewControllerFactory()
-        newTaskVC.delegate = self
-        present(newTaskVC, animated: true)
+        showAlert(withTitle: "New Task", andMessage: "What do you want to do?")
     }
 
     private func fetchData() {
@@ -33,7 +27,33 @@ final class TaskListViewController: UITableViewController {
         } catch {
             print(error)
         }
+    }
+    
+    private func showAlert(withTitle title: String, andMessage message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Save Task", style: .default) { [unowned self] _ in
+            guard let taskName = alert.textFields?.first?.text, !taskName.isEmpty else { return }
+            save(taskName)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        alert.addTextField { textField in
+            textField.placeholder = "New Task"
+        }
+        present(alert, animated: true)
+    }
+    
+    private func save(_ taskName: String) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let task = ToDoTask(context: appDelegate.persistentContainer.viewContext)
+        task.title = taskName
+        taskList.append(task)
         
+        let indexPath = IndexPath(row: taskList.count - 1, section: 0)
+        tableView.insertRows(at: [indexPath], with: .automatic)
+        
+        appDelegate.saveContext()
     }
 }
 
@@ -89,11 +109,4 @@ private extension TaskListViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = scrollNavBarApperance
     }
     
-}
-
-extension TaskListViewController: NewTaskViewControllerDelegate {
-    func reloadData() {
-        fetchData()
-        tableView.reloadData()
-    }
 }
