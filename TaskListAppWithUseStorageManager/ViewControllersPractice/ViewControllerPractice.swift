@@ -35,14 +35,18 @@ final class ViewControllerPractice: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(button)
-        view.addSubview(textField)
-        view.addSubview(label)
+        addSubview(button, textField, label)
         setConstrains()
     }
     
     private func buttonAction() {
         return
+    }
+    
+    private func addSubview(_ theViews: UIView...) {
+        theViews.forEach { checkEveryView in
+            view.addSubview(checkEveryView)
+        }
     }
 }
 
